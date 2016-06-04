@@ -1,3 +1,5 @@
+doctest is a submodule, so run `git submodule update --init` after cloning
+
 See https://github.com/onqtam/doctest/issues/21
 
 If you run "MyLibrary_DocTest", no test is launched !
