@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define DEBUG
 #include "doctest.h"
 
 //Note : I have a bug under OSX / Xcode : DOCTEST_BREAK_INTO_DEBUGGER is not defined
@@ -6,9 +7,17 @@
 //#define DOCTEST_BREAK_INTO_DEBUGGER()
 
 void HelloLibrary(){
-    printf("Hello Library");
+    printf("Hello2 Library");
 }
 TEST_CASE("Basic Test") {
-  int a = 2;
-  CHECK(a == 2);
+  static int ashram = 2;
+  CHECK(ashram == 2);
+  ashram++;
 }
+
+/*
+int g = [] {
+  DOCTEST_AUTOGEN_FUNC_2();
+  DOCTEST_AUTOGEN_FUNC_2();
+  return 1;
+}();*/

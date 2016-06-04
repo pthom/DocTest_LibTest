@@ -1,9 +1,10 @@
 set(sources lib1.cpp)
 add_library(MyLibrary STATIC ${sources})
-target_include_directories(MyLibrary PUBLIC ${CMAKE_SOURCE_DIR}/doctest )
+set_property(TARGET MyLibrary PROPERTY CXX_STANDARD 11)
+target_include_directories(MyLibrary PUBLIC ${CMAKE_SOURCE_DIR}/doctest/doctest )
 
 # This does not work : it links but the test list is empty !
-add_executable(MyLibrary_DocTest ${CMAKE_SOURCE_DIR}/doctest/doctest_main.cpp)
+add_executable(MyLibrary_DocTest ${CMAKE_SOURCE_DIR}/doctest_main/doctest_main.cpp)
 target_link_libraries(MyLibrary_DocTest MyLibrary)
 
 # This works, but it requires to re-compile all the source files and to re-define

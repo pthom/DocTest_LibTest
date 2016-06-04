@@ -1,0 +1,3 @@
+[submodule "doctest_lib"]
+	path = doctest
+	url = git@github.com:onqtam/doctest.git
