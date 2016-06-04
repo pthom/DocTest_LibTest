@@ -14,10 +14,3 @@ TEST_CASE("Basic Test") {
   CHECK(ashram == 2);
   ashram++;
 }
-
-/*
-int g = [] {
-  DOCTEST_AUTOGEN_FUNC_2();
-  DOCTEST_AUTOGEN_FUNC_2();
-  return 1;
-}();*/
