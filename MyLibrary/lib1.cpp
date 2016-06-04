@@ -6,6 +6,8 @@ void HelloLibrary(){
     printf("Hello2 Library");
 }
 
+void DocTest_Enabler() {
+}
 
 int factorial(int number) { return number <= 1 ? number : factorial(number - 1) * number; }
 
