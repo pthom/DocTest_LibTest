@@ -1,10 +1,6 @@
 #include <stdio.h>
-#define DEBUG
+#define DEBUG // Quick hack against DOCTEST_BREAK_INTO_DEBUGGER not being defined
 #include "doctest.h"
-
-//Note : I have a bug under OSX / Xcode : DOCTEST_BREAK_INTO_DEBUGGER is not defined
-// the line below is a quick hack to silence the error...
-//#define DOCTEST_BREAK_INTO_DEBUGGER()
 
 void HelloLibrary(){
     printf("Hello2 Library");
