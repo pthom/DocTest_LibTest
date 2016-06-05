@@ -1,9 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
 
-
-int DocTestRegister1();
-int DocTestRegister2();
+int DocTestRegister();
 
 int main(int argc, char** argv) {
   doctest::Context context(argc, argv);
@@ -12,7 +10,6 @@ int main(int argc, char** argv) {
   if(context.shouldExit())
     return res;
 
-  DocTestRegister1();
-  DocTestRegister2();
+  DocTestRegister();
   return res;
 }

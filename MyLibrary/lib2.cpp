@@ -3,7 +3,7 @@
 #include "doctest.h"
 
 
-int DocTestRegister2() {
+int DocTestRegister_lib2() {
     return 1;
 }
 

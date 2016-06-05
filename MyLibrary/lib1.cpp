@@ -2,7 +2,7 @@
 #define DEBUG // Quick hack against DOCTEST_BREAK_INTO_DEBUGGER not being defined
 #include "doctest.h"
 
-int DocTestRegister1() {
+int DocTestRegister_lib1() {
   return 1;
 }
 
