@@ -2,7 +2,7 @@
 #include "doctest.h"
 
 
-void DocTest_Enabler();
+int DocTestRegister();
 
 int main(int argc, char** argv) {
   doctest::Context context(argc, argv);
@@ -11,6 +11,6 @@ int main(int argc, char** argv) {
   if(context.shouldExit())
     return res;
 
-  DocTest_Enabler();
+  DocTestRegister();
   return res;
 }
