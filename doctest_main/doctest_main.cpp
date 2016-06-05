@@ -2,7 +2,8 @@
 #include "doctest.h"
 
 
-int DocTestRegister();
+int DocTestRegister1();
+int DocTestRegister2();
 
 int main(int argc, char** argv) {
   doctest::Context context(argc, argv);
@@ -11,6 +12,7 @@ int main(int argc, char** argv) {
   if(context.shouldExit())
     return res;
 
-  DocTestRegister();
+  DocTestRegister1();
+  DocTestRegister2();
   return res;
 }
