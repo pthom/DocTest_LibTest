@@ -1,6 +1,8 @@
 #!/bin/python
 import sys
 import uuid
+import os.path
+
 FileCode = """
 // This code was added by doctest_registerlibrary.cmake in order to ensure that the tests are properly run by DocTest.
 // Please commit it if needed, it will be added only once, and never modified.
@@ -24,7 +26,7 @@ int DocTestRegister()
 """
 
 def ProcessFile(filename):
-    print("ProcessFile " + filename)
+    #print("ProcessFile " + filename)
     if (filename == "doctest_registerlibrary.cpp"):
         return
     with open(filename, 'r') as f:
@@ -41,7 +43,7 @@ def ProcessFile(filename):
         with open(filename, 'a') as f:
             codeWithUuid = FileCode.replace("GUID", id)
             f.write(codeWithUuid)
-            print("filename was modified (added DocTestRegister_ function()")
+            print(filename + " was modified (added DocTestRegister_ function()")
 
 
 
@@ -75,6 +77,8 @@ def ProcessLibrary(sourcesFiles):
     codeWithGuidList = codeWithGuidList.replace("[CallRegisterFunctions]", callRegisterFunctions)
     #print(codeWithGuidList)
 
+    if (not os.path.isfile("doctest_registerlibrary.cpp") ):
+        print("doctest_registerlibrary.cpp was created (you can add it to source control, or ignore it, as preferred)")
     with open("doctest_registerlibrary.cpp", "w") as f:
         f.write(codeWithGuidList)
 

@@ -1,11 +1,9 @@
 function (doctest_registerlibrary libraryName)
-
-  message("doctest_registerlibrary ${libraryName}")
+  #message("doctest_registerlibrary ${libraryName}")
   get_target_property(sources ${libraryName} SOURCES)
 
   # Step 1 : Modify cpp files in order to add register function (see doctest_register.py -file)
   foreach(source ${sources})
-    #MESSAGE("RegisterDocTest on file ${source}")
     execute_process(COMMAND python ${CMAKE_SOURCE_DIR}/doctest_registerlibrary/doctest_registerlibrary.py -file ${source} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   endforeach(source)
 
