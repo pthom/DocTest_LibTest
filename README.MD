@@ -1,22 +1,22 @@
-# Static/ dynamic library "doctesting" made easy
+# Static/dynamic library "doctesting" made easy with cmake
 
 #### Motivation
-The doctest documentation says rightfully:
+The [doctest](https://github.com/onqtam/doctest) documentation says rightfully:
 > Tests can be considered a form of documentation and should be able to reside near the production code which they test.*
 
-In the case of a static library, this means that the tests code should reside directly inside the library source files (and not inside separate source files).
+In the case of a static library, this means that the tests code should reside directly inside the library source files, and *not* inside separate source files.
 
 Unfortunately, the self-registration of the tests does not work as desired when you link a static library : your tests might not be launched at all! This is due to the fact that the linker often strips the self-registration code when it is inside a library.
 For a more thorough explanation, see : https://github.com/onqtam/doctest/issues/21
 
 
 This project provides a solution, based on the further assumption that :
-> Adding tests to a library should be straightforward. Optimaly, it should be possible to do it by using a one-liner instruction in the library's CMakeList' file.
+> Adding tests to a library should be straightforward. Ideally, it should be possible to do it by using a one-line instruction in the library's CMakeList file.
 
 
-#### Quick usage instruction
+## Quick usage instructions
 
-`doctest_registerlibrary.cmake` provides several cmake functions that make it possible to add tests to a library, using a one-liner instruction in your `CMakeList.txt` file.
+`doctest_registerlibrary.cmake` provides a cmake functions that make it possible to add tests to a library, using a one-liner instruction in your `CMakeList.txt` file.
 
 For example :
 ```
@@ -33,14 +33,47 @@ This one-liner will :
 
 
 
-## Detailed Usage instuctions :
+## Detailed usage instructions :
 
-#### Step 1 : in the main `CMakeLists.txt`
-Enable tests in cmake, by adding the following line:
+#### Step 1 : include doctest and doctest_registerlibrary in your project
+
+For example, clone the doctest and doctest_registerlibrary at the root of your project, such as shown below:
+```
+YourProject/
+├── CMakeLists.txt
+├── YourLibraryToWhichYouWandToAddTests/
+│   ├── CMakeLists.txt
+│   ├── lib1.cpp
+│   └── lib2.cpp
+├── doctest
+│   ├── doctest/
+│   ├── ...
+│   └── scripts
+└── doctest_registerlibrary/
+    ├── doctest_main.cpp
+    ├── doctest_registerlibrary.cmake
+    └── doctest_registerlibrary.py```
+
+#### Step 2 : Adjust the paths in `doctest_registerlibrary.cmake`
+
+If neeeded, adjust the paths in the first two lines of `doctest_registerlibrary.cmake`
+
+```
+set (doctest_lib_location ${CMAKE_SOURCE_DIR}/doctest)
+set (doctest_registerlibrary_location ${CMAKE_SOURCE_DIR}/doctest_registerlibrary)
+```
+
+
+#### Step 3 : enable tests for your project
+Enable tests in cmake, by adding the following line to your project's main `CMakeLists.txt` file:
+
 ```
 enable_testing()
 ```
-##### Step 2 : in the `CMakeLists.txt` of your library
+
+#### Step 4 : Register tests for your library
+
+in the `CMakeLists.txt` of your library
 * Include "doctest_registerlibrary.cmake"
 * Call `doctest_registerlibrary(MyLibrary)` (where MyLibrary is the name of your library)
 
@@ -52,15 +85,25 @@ add_library(MyLibrary STATIC lib1.cpp lib2.cpp)
 doctest_registerlibrary(MyLibrary)
 ```
 
-##### What will doctest_registerlibrary.cmake do :
-- It will append the doctest include path to the library
-- It will add another executable target named "YourLibraryName_DocTest"
-- It will register this exe as a test (so that `make test` or `ctest` will launch it)
-- It will make some small changes to your cpp files in order to ensure that tests are actually run :
-  - It will modify your cpp files by adding a dummy function DocTestRegister_xxx()
-  - It will add a file doctest_registerlibrary.cpp that will call these dummy functions
+##  'A la carte' instructions
 
+`doctest_registerlibrary()` does different actions that can be called separately. See below  for the detail of those actions.
 
+##### doctest_registercppfiles
+`doctest_registercppfiles(YourLibraryName)` will make some small changes to your cpp files in order to ensure that tests are actually run :
+  - It will modify your cpp files by adding a dummy function DocTestRegister_\[GUID\]()
+  This modification is done once for all and can be committed.
+  - It will create a file doctest_registerlibrary.cpp that will call these dummy functions : this is the secret in order to make the self-registration of tests work with a static library.
+  This file can also be committed and will only be modified when new source files are added to the library.
 
+##### doctest_appendregisterlibrarycpp_tosources
+`doctest_appendregisterlibrarycpp_tosources()` can be used in conjunction with doctest_registercppfiles(). It will add the doctest_registerlibrary.cpp file to your library sources files.
 
-Note : doctest is a submodule, so run `git submodule update --init` after cloning
+##### doctest_addincludepath
+`doctest_addincludepath(YourLibraryName)` will simply add the doctest include pat to your library.
+
+##### doctest_maketesttarget
+`doctest_maketesttarget(YourLibraryName YourLibraryTestTargetName))` will create an executable target for your tests
+
+##### doctest_register_ctest
+`doctest_register_ctest(YourLibraryTestTargetName)` will register this exe as a test (so that `make test` or `ctest` will launch it)
