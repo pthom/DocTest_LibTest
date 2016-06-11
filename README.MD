@@ -41,7 +41,7 @@ For example, clone the doctest and doctest_registerlibrary at the root of your p
 ```
 YourProject/
 ├── CMakeLists.txt
-├── YourLibraryToWhichYouWandToAddTests/
+├── YourLibrary/
 │   ├── CMakeLists.txt
 │   ├── lib1.cpp
 │   └── lib2.cpp
@@ -76,12 +76,11 @@ enable_testing()
 
 in the `CMakeLists.txt` of your library
 * Include "doctest_registerlibrary.cmake"
-* Call `doctest_registerlibrary(MyLibrary)` (where MyLibrary is the name of your library)
+* Call `doctest_registerlibrary(YourLibrary)` (where YourLibrary is the name of your library)
 
 Example :
 ```
 include("${CMAKE_SOURCE_DIR}/doctest_registerlibrary/doctest_registerlibrary.cmake")
-
 add_library(MyLibrary STATIC lib1.cpp lib2.cpp)
 doctest_registerlibrary(MyLibrary)
 ```
@@ -91,20 +90,20 @@ doctest_registerlibrary(MyLibrary)
 `doctest_registerlibrary()` does different actions that can be called separately. See below  for the detail of those actions.
 
 ##### doctest_registercppfiles
-`doctest_registercppfiles(YourLibraryName)` will make some small changes to your cpp files in order to ensure that tests are actually run :
-  - It will modify your cpp files by adding a dummy function DocTestRegister_\[GUID\]()
-  This modification is done once for all and can be committed.
+`doctest_registercppfiles(YourLibrary)` will make some small changes to your cpp files in order to ensure that tests are actually run :
+  - It will modify your cpp files by adding a dummy function DocTestRegister_\[GUID\]().
+  This modification is done only once, and can be committed.
   - It will create a file doctest_registerlibrary.cpp that will call these dummy functions : this is the secret in order to make the self-registration of tests work with a static library.
   This file can also be committed and will only be modified when new source files are added to the library.
 
 ##### doctest_appendregisterlibrarycpp_tosources
-`doctest_appendregisterlibrarycpp_tosources()` can be used in conjunction with doctest_registercppfiles(). It will add the doctest_registerlibrary.cpp file to your library sources files.
+`doctest_appendregisterlibrarycpp_tosources(YourLibrary)` can be used in conjunction with `doctest_registercppfiles()`. It will add the `doctest_registerlibrary.cpp` file to your library sources files.
 
 ##### doctest_addincludepath
-`doctest_addincludepath(YourLibraryName)` will simply add the doctest include pat to your library.
+`doctest_addincludepath(YourLibrary)` will simply add the doctest include pat to your library.
 
 ##### doctest_maketesttarget
-`doctest_maketesttarget(YourLibraryName YourLibraryTestTargetName))` will create an executable target for your tests
+`doctest_maketesttarget(YourLibrary YourLibraryTestName))` will create an executable target for your tests
 
 ##### doctest_register_ctest
-`doctest_register_ctest(YourLibraryTestTargetName)` will register this exe as a test (so that `make test` or `ctest` will launch it)
+`doctest_register_ctest(YourLibraryTestName)` will register this exe as a test (so that `make test` or `ctest` will launch it)
