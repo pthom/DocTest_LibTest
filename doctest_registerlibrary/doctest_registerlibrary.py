@@ -29,6 +29,12 @@ def ProcessFile(filename):
     #print("ProcessFile " + filename)
     if (filename == "doctest_registerlibrary.cpp"):
         return
+
+    allowedExtensions=["cpp", "cc", "c", "cxx"]
+    file_extension = filename.split(".")[-1]
+    if not file_extension in allowedExtensions:
+        return
+
     with open(filename, 'r') as f:
         lines = f.readlines()
 
@@ -38,8 +44,7 @@ def ProcessFile(filename):
             tokenPresent = True
 
     if (not tokenPresent) :
-        id = str(uuid.uuid4())
-        id = id.replace("-", "_")
+        id = str(uuid.uuid4()).replace("-", "_")
         with open(filename, 'a') as f:
             codeWithUuid = FileCode.replace("GUID", id)
             f.write(codeWithUuid)
@@ -48,7 +53,7 @@ def ProcessFile(filename):
 
 
 def ProcessLibrary(sourcesFiles):
-    print("ProcessLibrary ")
+    #print("ProcessLibrary ")
     guidList = []
     for filename in sourcesFiles:
         guid = ""
@@ -56,9 +61,7 @@ def ProcessLibrary(sourcesFiles):
             lines = f.readlines()
         for line in lines:
             if ("int DocTestRegister_" in line):
-                line = line.replace("int", "")
-                line = line.replace("(", "")
-                line = line.replace(")", "")
+                line = line.replace("int", "").replace("(", "").replace(")", "")
                 words = line.split()
                 for word in words:
                     if ("DocTestRegister_" in word):
@@ -66,15 +69,15 @@ def ProcessLibrary(sourcesFiles):
         if (guid != ""):
             guidList.append(guid)
 
-    declareRegisterFunctions = ""
-    callRegisterFunctions = ""
+    declareRegisterFunctionsCode = ""
+    callRegisterFunctionsCode = ""
     for guid in guidList:
-        declareRegisterFunctions = declareRegisterFunctions + "int DocTestRegister_" + guid + "();\n"
-        callRegisterFunctions = callRegisterFunctions + "  dummy_sum += DocTestRegister_" + guid + "();\n";
+        declareRegisterFunctionsCode = declareRegisterFunctionsCode + "int DocTestRegister_" + guid + "();\n"
+        callRegisterFunctionsCode = callRegisterFunctionsCode + "  dummy_sum += DocTestRegister_" + guid + "();\n";
 
     codeWithGuidList = DocTestRegisterCppCode
-    codeWithGuidList = codeWithGuidList.replace("[DeclareRegisterFunctions]", declareRegisterFunctions)
-    codeWithGuidList = codeWithGuidList.replace("[CallRegisterFunctions]", callRegisterFunctions)
+    codeWithGuidList = codeWithGuidList.replace("[DeclareRegisterFunctions]", declareRegisterFunctionsCode)
+    codeWithGuidList = codeWithGuidList.replace("[CallRegisterFunctions]", callRegisterFunctionsCode)
     #print(codeWithGuidList)
 
     if (not os.path.isfile("doctest_registerlibrary.cpp") ):
