@@ -1,6 +1,18 @@
 # doctest_registerlibrary
+
+**Motivation**
+The doctest documentation says rightfully:
+> Tests can be considered a form of documentation and should be able to reside near the production code which they test.*
+
+In the case of a static library, this means that the tests code should reside directly inside the library source files (and not inside separate source files).
+Unfortunately, the self-registration of the tests does not work as desired when you link a static library : your tests might not be launched at all!  
+For a more thorough explanation, see : https://github.com/onqtam/doctest/issues/21
+
+
+** What this project provides **
+
 `doctest_registerlibrary/doctest_registerlibrary.cmake` provides a cmake function that make it possible to run test from inside a library.
-This resolves the issue : https://github.com/onqtam/doctest/issues/21
+This resolves the issue :
 
 How to use it :
 
