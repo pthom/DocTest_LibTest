@@ -1,4 +1,6 @@
 function (doctest_registerlibrary libraryName)
+  target_include_directories(${libraryName} PUBLIC ${CMAKE_SOURCE_DIR}/doctest/doctest )
+
   #message("doctest_registerlibrary ${libraryName}")
   get_target_property(sources ${libraryName} SOURCES)
 
