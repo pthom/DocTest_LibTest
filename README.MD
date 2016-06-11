@@ -52,7 +52,8 @@ YourProject/
 └── doctest_registerlibrary/
     ├── doctest_main.cpp
     ├── doctest_registerlibrary.cmake
-    └── doctest_registerlibrary.py```
+    └── doctest_registerlibrary.py
+```
 
 #### Step 2 : Adjust the paths in `doctest_registerlibrary.cmake`
 
