@@ -10,7 +10,7 @@ Unfortunately, the self-registration of the tests does not work as desired when 
 For a more thorough explanation, see : https://github.com/onqtam/doctest/issues/21
 
 
-So, this project provides a solution based on the further assumption that :
+This project provides a solution, based on the further assumption that :
 > Adding tests to a library should be straightforward. Optimaly, it should be possible to do it by using a one-liner instruction in the library's CMakeList' file.
 
 
