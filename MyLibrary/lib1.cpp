@@ -2,9 +2,6 @@
 #define DEBUG // Quick hack against DOCTEST_BREAK_INTO_DEBUGGER not being defined
 #include "doctest.h"
 
-int DocTestRegister_lib1() {
-  return 1;
-}
 
 int factorial(int number) { return number <= 1 ? number : factorial(number - 1) * number; }
 
