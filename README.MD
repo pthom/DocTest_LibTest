@@ -1,3 +1,6 @@
+# This repo is out of date : 
+it is replaced by https://github.com/pthom/doctest_registerlibrary
+
 # Static/dynamic library "doctesting" made easy with cmake
 
 #### Motivation
